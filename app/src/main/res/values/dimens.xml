@@ -1,4 +1,13 @@
 <resources>
+    <dimen name="progress_bar_size">300dp</dimen>
+
+    <!-- Длина стороны квадрата, вписанного в круг таймера. Рассчитывается по формуле: [progress_bar_size / sqrt(2)] -->
+    <dimen name="main_square_size">212dp</dimen>
+    
+    <dimen name="image_size">100dp</dimen>
+    <dimen name="time_text_size">34sp</dimen>
+    <dimen name="process_text_size">26sp</dimen>
+
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
