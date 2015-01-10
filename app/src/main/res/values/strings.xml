@@ -1,9 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="app_name">Tom</string>
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_main2">Main2Activity</string>
 
+    <string name="working">working</string>
+    <string name="relaxing">relaxing</string>
+    <string name="start_working">Tap here\nand start working</string>
+    <string name="start_break">Tap here\nand take a break</string>
+    <string name="click_back_again">Click BACK again to exit\nTom will continue to work in background</string>
+    <string name="what_to_do">Stop Tom?</string>
+
+    <string-array name="dialog_buttons">
+        <item>Yes</item>
+        <item>No</item>
+    </string-array>
+
+    <string name="lets_take_brake">Let\'s take a break!</string>
+    <string name="lets_work">Let\'s work!</string>
 </resources>

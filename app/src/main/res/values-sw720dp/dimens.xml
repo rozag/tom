@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="progress_bar_size">600dp</dimen>
+
+    <dimen name="main_square_size">424dp</dimen>
+
+    <dimen name="image_size">100dp</dimen>
+    <dimen name="time_text_size">68sp</dimen>
+    <dimen name="process_text_size">52sp</dimen>
+</resources>

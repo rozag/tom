@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Tom</string>
+    <string name="action_settings">Настройки</string>
+
+    <string name="working">работаем</string>
+    <string name="relaxing">отдыхаем</string>
+    <string name="start_working">Нажми сюда\nи начинай работать</string>
+    <string name="start_break">Нажми сюда\nи передохни</string>
+    <string name="click_back_again">Нажми еще раз, чтобы выйти.\nTom продолжит работать в фоне.</string>
+    <string name="what_to_do">Остановить Tom\'а?</string>
+
+    <string-array name="dialog_buttons">
+        <item>Да</item>
+        <item>Нет</item>
+    </string-array>
+
+    <string name="lets_take_brake">Пора передохнуть!</string>
+    <string name="lets_work">Пора за работу!</string>
+</resources>
