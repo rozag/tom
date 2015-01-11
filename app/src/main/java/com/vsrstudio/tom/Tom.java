@@ -3,10 +3,12 @@ package com.vsrstudio.tom;
 import android.app.Activity;
 import android.app.DialogFragment;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Binder;
 import android.os.CountDownTimer;
 import android.os.IBinder;
+import android.os.PowerManager;
 
 public class Tom extends Service {
 
@@ -26,6 +28,23 @@ public class Tom extends Service {
 
     public boolean isCounting = false;
     private int pomodorosCount = 0;
+
+    private PowerManager.WakeLock wakeLock;
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        // Prevent device from sleeping when blocked
+        final PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
+        wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "Tom");
+        wakeLock.acquire();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        wakeLock.release();
+    }
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -140,28 +159,36 @@ public class Tom extends Service {
 
         @Override
         public void onTick(final long millisUntilFinished) {
-            if (pomodoroListener != null) {
-                final long SECOND = 1000;
-                final long minutes = millisUntilFinished / (60 * SECOND); // (60 * 1000) is one minute
-                final long tmp = millisUntilFinished % (60 * SECOND);
-                final long seconds = (tmp <= 6 * SECOND) ? roundSeconds(tmp) / 10 : roundSeconds(tmp);
-                final String timeText = rightFormat(minutes) + ":" + rightFormat(seconds);
+            final long SECOND = 1000;
+            final long minutes = millisUntilFinished / (60 * SECOND); // (60 * 1000) is one minute
+            final long tmp = millisUntilFinished % (60 * SECOND);
+            final long seconds = (tmp <= 6 * SECOND) ? roundSeconds(tmp) / 10 : roundSeconds(tmp);
+            final String timeText = rightFormat(minutes) + ":" + rightFormat(seconds);
+            String stateText = "";
 
-                float progress = 0f;
-                switch (mCurrentState) {
-                    case WORK:
-                        progress = (float) millisUntilFinished / (float) WORK_TIME;
-                        break;
-                    case BREAK:
-                        progress = (float) millisUntilFinished / (float) BREAK_TIME;
-                        break;
-                    case LONG_BREAK:
-                        progress = (float) millisUntilFinished / (float) LONG_BREAK_TIME;
-                        break;
-                }
-
-                pomodoroListener.setTime(timeText, progress);
+            float progress = 0f;
+            switch (mCurrentState) {
+                case WORK:
+                    progress = (float) millisUntilFinished / (float) WORK_TIME;
+                    stateText = getString(R.string.work_time_left);
+                    break;
+                case BREAK:
+                    progress = (float) millisUntilFinished / (float) BREAK_TIME;
+                    stateText = getString(R.string.break_time_left);
+                    break;
+                case LONG_BREAK:
+                    progress = (float) millisUntilFinished / (float) LONG_BREAK_TIME;
+                    stateText = getString(R.string.break_time_left);
+                    break;
             }
+
+            if (pomodoroListener != null) pomodoroListener.setTime(timeText, progress);
+
+            Notificator.with(getApplicationContext()).updateTimeNotification(
+                    getString(R.string.app_name),
+                    stateText + " " + timeText,
+                    R.drawable.ic_notification,
+                    R.drawable.ic_notification_large);
         }
 
         // Take only 2 left digits (e.g. 12345 -> 12)
@@ -179,6 +206,7 @@ public class Tom extends Service {
         @Override
         public void onFinish() {
             isCounting = false;
+            Notificator.with(getApplicationContext()).removeNotification();
             if (pomodoroListener == null) {
                 switch (mCurrentState) {
                     case WORK:

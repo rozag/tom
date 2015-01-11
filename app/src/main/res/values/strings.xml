@@ -10,6 +10,9 @@
     <string name="click_back_again">Click BACK again to exit\nTom will continue to work in background</string>
     <string name="what_to_do">Stop Tom?</string>
 
+    <string name="work_time_left">Working. Time left:</string>
+    <string name="break_time_left">Relaxing. Time left:</string>
+
     <string-array name="dialog_buttons">
         <item>Yes</item>
         <item>No</item>

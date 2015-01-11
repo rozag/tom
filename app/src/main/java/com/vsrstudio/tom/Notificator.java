@@ -28,6 +28,7 @@ public class Notificator {
     public static class Notification {
 
         private final Context mContext;
+        private final int notificationId = 8; // some number from my head
 
         private Notification(final Context context) {
             mContext = context;
@@ -43,11 +44,33 @@ public class Notificator {
                             .setLargeIcon(getLargeIconBitmap(largeIconId))
                             .setAutoCancel(true)
                             .setSound(sound)
+                            .setOngoing(false)
                             .setVibrate(pattern)
                             .setLights(Color.RED, 500, 2000)
                             .setContentTitle(title)
                             .setContentText(text);
 
+            sendNotification(mBuilder);
+        }
+
+        public void removeNotification() {
+            final NotificationManager mNotificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+            mNotificationManager.cancel(notificationId);
+        }
+
+        public void updateTimeNotification(final String title, final String text, final int smallIconId, final int largeIconId) {
+            final NotificationCompat.Builder mBuilder =
+                    new NotificationCompat.Builder(mContext)
+                            .setSmallIcon(smallIconId)
+                            .setLargeIcon(getLargeIconBitmap(largeIconId))
+                            .setOngoing(true)
+                            .setContentTitle(title)
+                            .setContentText(text);
+
+            sendNotification(mBuilder);
+        }
+
+        private void sendNotification(final NotificationCompat.Builder mBuilder) {
             final Intent resultIntent = new Intent(mContext, MainActivity.class);
             TaskStackBuilder stackBuilder = TaskStackBuilder.create(mContext);
             stackBuilder.addParentStack(MainActivity.class);
@@ -58,8 +81,8 @@ public class Notificator {
                             PendingIntent.FLAG_UPDATE_CURRENT
                     );
             mBuilder.setContentIntent(resultPendingIntent);
-            NotificationManager mNotificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
-            mNotificationManager.notify(1, mBuilder.build());
+            final NotificationManager mNotificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+            mNotificationManager.notify(notificationId, mBuilder.build());
         }
 
         public void playSoundAndVibrate() {

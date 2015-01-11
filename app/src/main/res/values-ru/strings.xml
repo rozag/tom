@@ -10,6 +10,9 @@
     <string name="click_back_again">Нажми еще раз, чтобы выйти.\nTom продолжит работать в фоне.</string>
     <string name="what_to_do">Остановить Tom\'а?</string>
 
+    <string name="work_time_left">Работаем. Времени осталось:</string>
+    <string name="break_time_left">Отдыхаем. Времени осталось:</string>
+
     <string-array name="dialog_buttons">
         <item>Да</item>
         <item>Нет</item>
