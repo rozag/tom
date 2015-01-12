@@ -237,6 +237,7 @@ public class Tom extends Service {
     public void onStopTomClick() {
         mCurrentState = State.BREAK_FINISHED;
         mTimer.cancel();
+        Notificator.with(getApplicationContext()).removeNotification();
         isCounting = false;
         pomodorosCount = 0;
         pomodoroBreakFinished();
